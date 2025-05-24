@@ -5,6 +5,7 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
+    "docs:deploy": "npm run docs:build && git add -A && git commit -m 'deploy' && git push -f https://github.com/Lion-nice/NookCraftLab.git main",
     "docs:preview": "vitepress preview docs",
     "deploy": "npm run docs:build && git add -A && git commit -m 'deploy' && git push origin main"
   }
