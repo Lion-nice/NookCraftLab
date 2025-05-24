@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "NookCraftLab",
   description: "在线文档库",
+  base: "/NookCraftLab/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
