@@ -23,7 +23,7 @@ export default defineConfig({
       {
         text: '用户手册目录',
         items: [
-          { text: ' HX-40 产品信息', link: '/HX40-2' },
+          { text: ' HX-40 用户手册', link: '/HX40-2' },
           { text: '', link: '/' }
         ]
       },
