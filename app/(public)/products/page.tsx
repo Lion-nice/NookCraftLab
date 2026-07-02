@@ -80,8 +80,22 @@ export default function ProductsPage() {
   ], [locale])
 
   const filteredCategories = searchQuery
-    ? categories.filter(c => c.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? categories.filter(c => {
+        const q = searchQuery.toLowerCase()
+        return (
+          c.title.toLowerCase().includes(q) ||
+          c.desc.toLowerCase().includes(q) ||
+          c.brand.toLowerCase().includes(q)
+        )
+      })
     : categories
+
+  const hasSearch = searchQuery.trim().length > 0
+  const clearSearch = () => {
+    setSearchQuery("")
+    setSearchExpanded(false)
+    if (searchInputRef.current) searchInputRef.current.blur()
+  }
 
   return (
     <div className="min-h-screen">
@@ -153,14 +167,24 @@ export default function ProductsPage() {
             : "border-transparent bg-transparent"
         )}>
           <button
-            onClick={() => setSearchExpanded(!searchExpanded)}
+            onClick={() => {
+              if (hasSearch) {
+                clearSearch()
+              } else {
+                setSearchExpanded(!searchExpanded)
+              }
+            }}
             className={cn(
               "flex items-center justify-center transition-all duration-300",
               searchExpanded ? "shrink-0" : "h-10 w-10 rounded-lg border border-border bg-background/95 backdrop-blur-xl hover:bg-secondary/50"
             )}
           >
             {searchExpanded ? (
-              <X className="h-4 w-4 text-muted-foreground" />
+              hasSearch ? (
+                <X className="h-4 w-4 text-primary" />
+              ) : (
+                <X className="h-4 w-4 text-muted-foreground" />
+              )
             ) : (
               <Search className="h-4 w-4 text-muted-foreground" />
             )}
@@ -181,6 +205,24 @@ export default function ProductsPage() {
       {/* Product list */}
       <section className="px-4 sm:px-6 py-16 sm:py-20 border-t border-border/30">
         <div className="mx-auto max-w-4xl">
+          {/* Search result indicator */}
+          {hasSearch && (
+            <div className="flex items-center justify-between mb-6 animate-fade-in">
+              <p className="text-xs text-muted-foreground/50">
+                {filteredCategories.length === 0
+                  ? t(locale, "products.noResults")
+                  : `${filteredCategories.length} ${locale === "zh" ? "个结果" : "result(s)"}`
+                }
+              </p>
+              <button
+                onClick={clearSearch}
+                className="flex items-center gap-1.5 text-xs text-muted-foreground/50 hover:text-primary transition-colors"
+              >
+                <X className="h-3 w-3" />
+                {locale === "zh" ? "清除搜索" : "Clear"}
+              </button>
+            </div>
+          )}
           <div className="flex flex-col divide-y divide-border/30">
             {filteredCategories.map((cat, index) => (
               <div

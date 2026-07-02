@@ -155,8 +155,12 @@ export function TimeMachine({ images, title, slug }: TimeMachineProps) {
         <div className="relative w-full h-full flex items-center justify-center">
           {visibleCards.map((card) => {
             const offsetIndex = card.index - currentIndex
-            const blur = currentIndex > card.index ? 2 : 0
-            const opacity = currentIndex > card.index ? 0 : 1
+            const isCurrent = offsetIndex === 0
+            const isPast = currentIndex > card.index
+            // Current: clear, Future: frosted glass, Past: invisible
+            const blur = isCurrent ? 0 : isPast ? 4 : 8
+            const opacity = isCurrent ? 1 : isPast ? 0 : 0.6
+            const brightness = isCurrent ? 1 : isPast ? 1 : 0.7
             const scale = clamp(1 - offsetIndex * 0.08, [0.08, 2])
             const y = clamp(offsetIndex * FRAME_OFFSET, [FRAME_OFFSET * FRAMES_VISIBLE_LENGTH, Number.POSITIVE_INFINITY])
             return (
@@ -164,8 +168,19 @@ export function TimeMachine({ images, title, slug }: TimeMachineProps) {
                 key={card.index}
                 className="absolute w-[85%] max-w-[800px] aspect-[16/9] bg-card rounded-xl overflow-hidden shadow-2xl"
                 initial={false}
-                animate={{ y, scale, transition: { type: "spring", stiffness: 250, damping: 20, mass: 0.5 } }}
-                style={{ willChange: "opacity, filter, transform", filter: `blur(${blur}px)`, opacity, transitionProperty: "opacity, filter", transitionDuration: "200ms", transitionTimingFunction: "ease-in-out", zIndex: 1000 - card.index }}
+                animate={{
+                  y,
+                  scale,
+                  opacity,
+                  filter: `blur(${blur}px) brightness(${brightness})`,
+                  transition: {
+                    type: "spring",
+                    stiffness: 250,
+                    damping: 20,
+                    mass: 0.5,
+                  },
+                }}
+                style={{ willChange: "opacity, filter, transform", zIndex: 1000 - card.index }}
               >
                 <Image src={images[card.imageIndex]} alt={`${title} - ${card.imageIndex + 1}`} fill className="object-cover" sizes="(max-width: 800px) 85vw, 800px" priority={offsetIndex === 0} />
               </motion.div>
