@@ -157,7 +157,6 @@ export function TimeMachine({ images, title, slug }: TimeMachineProps) {
             const offsetIndex = card.index - currentIndex
             const isCurrent = offsetIndex === 0
             const isPast = currentIndex > card.index
-            // Current: clear, Future: frosted glass, Past: invisible
             const blur = isCurrent ? 0 : isPast ? 4 : 8
             const opacity = isCurrent ? 1 : isPast ? 0 : 0.6
             const brightness = isCurrent ? 1 : isPast ? 1 : 0.7
@@ -168,19 +167,14 @@ export function TimeMachine({ images, title, slug }: TimeMachineProps) {
                 key={card.index}
                 className="absolute w-[85%] max-w-[800px] aspect-[16/9] bg-card rounded-xl overflow-hidden shadow-2xl"
                 initial={false}
-                animate={{
-                  y,
-                  scale,
-                  opacity,
+                animate={{ y, scale, opacity }}
+                style={{
+                  willChange: "opacity, filter, transform",
+                  zIndex: 1000 - card.index,
                   filter: `blur(${blur}px) brightness(${brightness})`,
-                  transition: {
-                    type: "spring",
-                    stiffness: 250,
-                    damping: 20,
-                    mass: 0.5,
-                  },
+                  transition: "filter 0.4s ease-in-out, opacity 0.4s ease-in-out",
                 }}
-                style={{ willChange: "opacity, filter, transform", zIndex: 1000 - card.index }}
+                transition={{ type: "spring", stiffness: 250, damping: 20, mass: 0.5 }}
               >
                 <Image src={images[card.imageIndex]} alt={`${title} - ${card.imageIndex + 1}`} fill className="object-cover" sizes="(max-width: 800px) 85vw, 800px" priority={offsetIndex === 0} />
               </motion.div>
