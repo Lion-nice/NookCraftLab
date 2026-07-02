@@ -25,23 +25,22 @@ export function generateStaticParams() {
   return Object.keys(galleryImages).map((slug) => ({ slug }))
 }
 
-export default function GalleryPage({ params }: { params: Promise<{ slug: string }> }) {
-  return params.then(({ slug }) => {
-    const images = galleryImages[slug]
-    const name = productNames[slug] || slug
+export default async function GalleryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const images = galleryImages[slug]
+  const name = productNames[slug] || slug
 
-    if (!images || images.length === 0) {
-      return (
-        <div className="flex items-center justify-center h-screen bg-background">
-          <p className="text-muted-foreground">No images available.</p>
-        </div>
-      )
-    }
-
+  if (!images || images.length === 0) {
     return (
-      <main className="w-full h-screen bg-background">
-        <TimeMachine images={images} title={name} slug={slug} />
-      </main>
+      <div className="flex items-center justify-center h-screen bg-background">
+        <p className="text-muted-foreground">No images available.</p>
+      </div>
     )
-  })
+  }
+
+  return (
+    <main className="w-full h-screen bg-background">
+      <TimeMachine images={images} title={name} slug={slug} />
+    </main>
+  )
 }
