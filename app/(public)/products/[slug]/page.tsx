@@ -37,7 +37,7 @@ const productDetails: Record<string, ProductDetail> = {
   },
 }
 
-const productSlugs = ["hx-40"]
+const productSlugs = ["hx-40", "yan"]
 
 export function generateStaticParams() {
   return productSlugs.map((slug) => ({ slug }))

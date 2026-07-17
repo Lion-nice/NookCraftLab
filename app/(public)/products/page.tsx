@@ -27,10 +27,14 @@ const productImages: Record<string, string[]> = {
   "product.nebula": [
     "/products/NookPad/NookPad-1.jpg",
   ],
+  "product.yan": [
+    "/products/Yan/Yan-1.png",
+  ],
 }
 
 const productKeys = [
   "product.nook65",
+  "product.yan",
   "product.horizon",
   "product.companion",
   "product.phantom",
@@ -75,7 +79,7 @@ export default function ProductsPage() {
       desc: t(locale, `${key}.desc` as any),
       brand: t(locale, `${key}.brand` as any),
       images: productImages[key],
-      slug: `/products/${key === "product.nook65" ? "hx-40" : key === "product.horizon" ? "aroundight" : key === "product.companion" ? "rir-40" : key === "product.phantom" ? "crt-pad" : key === "product.nebula" ? "nookpad" : key.replace("product.", "")}`,
+      slug: `/products/${key === "product.nook65" ? "hx-40" : key === "product.horizon" ? "aroundight" : key === "product.companion" ? "rir-40" : key === "product.phantom" ? "crt-pad" : key === "product.nebula" ? "nookpad" : key === "product.yan" ? "yan" : key.replace("product.", "")}`,
     })),
   ], [locale])
 

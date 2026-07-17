@@ -11,6 +11,7 @@ const galleryImages: Record<string, string[]> = {
   "rir-40": ["/products/R.I.R.40/R.I.R.40-1.jpg"],
   "crt-pad": ["/products/CRT-Pad/CRT-Pad-1.jpg"],
   "nookpad": ["/products/NookPad/NookPad-1.jpg"],
+  "yan": ["/products/Yan/Yan-1.png"],
 }
 
 const productNames: Record<string, string> = {
@@ -19,6 +20,7 @@ const productNames: Record<string, string> = {
   "rir-40": "R.I.R.40",
   "crt-pad": "CRT Pad",
   "nookpad": "NookPad",
+  "yan": "Yan",
 }
 
 export function generateStaticParams() {

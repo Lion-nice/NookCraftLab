@@ -10,9 +10,10 @@ const productNames: Record<string, string> = {
   "rir-40": "R.I.R.40",
   "crt-pad": "CRT Pad",
   "nookpad": "NookPad",
+  "yan": "Yan",
 }
 
-const productSlugs = ["hx-40", "aroundight", "rir-40", "crt-pad", "nookpad"]
+const productSlugs = ["hx-40", "aroundight", "rir-40", "crt-pad", "nookpad", "yan"]
 
 export function generateStaticParams() {
   return productSlugs.map((slug) => ({ slug }))
